@@ -14,11 +14,27 @@ author:{
     type : mongoose.Schema.Types.ObjectId
 },
 
-category  : String,
-title     : String,
+category  : {
+    type:String,
+    required: true
+},
+
+title  :{ 
+    type: String,
+    required  :true
+},
+
 coverImage: String,
-content   : String,
-likes : Number,
+
+content :{
+    type:String,
+    required :true
+},
+
+likes :{ 
+    type:Number,
+    default :0
+},
 
 //commnets
 comments :[{ 
@@ -36,7 +52,9 @@ comments :[{
 }],
 
 date :Date,
-tags : [String]
+tags : [{
+    type:String
+}]
 
 })   
 

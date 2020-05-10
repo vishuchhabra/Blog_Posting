@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //middlware for the static folder
-app.use(express.static('static'));
+app.use(express.static('static/images'));
 
 //routes middleware
 

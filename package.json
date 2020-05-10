@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/vishuchhabra/blog_website_backend.git"
   },
-  "author": "Yuvraj",
+  "author": "Team Work",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/vishuchhabra/blog_website_backend/issues"
@@ -21,6 +21,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
     "mongodb": "^3.5.7",
     "mongoose": "^5.9.13",
     "morgan": "^1.10.0",

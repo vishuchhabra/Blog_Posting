@@ -24,7 +24,11 @@ title  :{
     required  :true
 },
 
-coverImage: String,
+coverImage:
+{
+    type:String,
+    required:true
+}, 
 
 content :{
     type:String,
@@ -32,6 +36,10 @@ content :{
 },
 
 likes :{ 
+    type:Number,
+    default :0
+},
+disLikes :{ 
     type:Number,
     default :0
 },

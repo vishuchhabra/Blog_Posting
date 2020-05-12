@@ -4,26 +4,28 @@ const router  = express.Router()
 const blog  =  require('../models/blog')
 const base64Image = require('base64-to-image')
 const fs  =  require('fs')
+const search   = require('../../scripts/search')
 
 //for adding the new blog 
-router.post('/add',(req,res)=>
+router.post('/add',  (req,res,next)=>
 {
         //for converting the base64 to images and store thatimage to given path
-        const base64Str =req.body.coverImage
+        const base64Str = req.body.coverImage
         const path ='./static/images/'  //path
         const secret = new mongoose.Types.ObjectId()+Date.now()+Math.floor((Math.random() * 1000000) + 1)
         const  optionalObj = {'fileName':secret , 'type':'png'};
         const imageInfo = base64Image(base64Str,path,optionalObj)
         console.log(imageInfo)
+        
 
         //for saving the content as a html file
         //file Name
         const fileName1 = new mongoose.Types.ObjectId()+Date.now()+Math.floor((Math.random() * 1000000) + 1)+'.html'
         
         //writing operation
-        fs.writeFile(`./static/files/${fileName1}/`, req.body.content, function(err,data) 
+        fs.writeFile(`./static/files/${fileName1}/`, req.body.content,function(err,data) 
         { 
-            if(err) throw err;
+            if(err) throw err 
             console.log(err)
         })
         
@@ -56,6 +58,7 @@ router.post('/add',(req,res)=>
             })
         
 })
+
 //for getting the blog by the id
 
 router.get('/get/:id',async (req,res)=>
@@ -76,6 +79,7 @@ router.get('/get/:id',async (req,res)=>
            author: result.author,
            PublishDate: result.date,
            likes: result.likes,
+           disLikes : result.disLikes,
            content:data,
            comments:result.comments 
         })
@@ -91,10 +95,11 @@ router.get('/get/:id',async (req,res)=>
 })
 
 //for like the blog by the id coming in paramas
-router.patch('/like/:id',(req,res)=>
+
+router.patch('/like/:id',async (req,res)=>
 {
     const id = req.params.id  //id of the blog 
-    blog.updateOne({_id:id},{ $inc: { likes: 1 }}) //increment the like by one
+    await blog.updateOne({_id:id},{ $inc: { likes: 1 }}) //increment the like by one
     .then(result=>
     {
        res.status(202).json({
@@ -112,8 +117,32 @@ router.patch('/like/:id',(req,res)=>
     })
 })
 
+//for dislike the blog by the id coming in paramas
+
+router.patch('/dislike/:id',async (req,res)=>
+{
+    const id = req.params.id  //id of the blog 
+    await blog.updateOne({_id:id},{ $inc: { disLikes: 1 }}) //increment the like by one
+    .then(result=>
+    {
+       res.status(202).json({
+           type:"Success",
+           message: "Disliked"
+       })     
+    })
+    .catch(err=>
+    {
+       res.status(400).json(
+        {
+           type: "Failure",
+           message: "Blog Not Found"
+        })
+    })
+})
+
 //for posting the comment to the specific blog 
-router.patch('/comment/:id',(req,res)=>
+
+router.patch('/comment/:id',async (req,res)=>
 {
     const blogData={
         name:req.body.name,
@@ -122,7 +151,7 @@ router.patch('/comment/:id',(req,res)=>
     }
     if(blogData.name !==undefined && blogData.email!==undefined && blogData.comment!==undefined)
     {
-        blog.updateOne({_id:req.params.id},{ $push: { comments: blogData }})
+        await blog.updateOne({_id:req.params.id},{ $push: { comments: blogData }})
         .then(result=>
         {
             res.status(202).json(
@@ -151,6 +180,14 @@ router.patch('/comment/:id',(req,res)=>
 })
 
 
+//for search from the database accoding to Title, category,likes,dislike,date
+
+router.get('/search/',async(req,res)=>
+{
+    let val =await  search.searchID(req.query)
+    res.status(200).send(val)
+})
 
 //exporting  the router
+
 module.exports = router

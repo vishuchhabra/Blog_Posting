@@ -15,11 +15,10 @@ async function searchID(temp)
             { listIn: { $regex:temp.key, $options: "i" }},        //search based on Tags
             { "comments.comment": { $regex:temp.key, $options: "i" }}]  // search based on comment 
         })
-        // result2.forEach(item=>
-        // {
-        //     arr.push(item)
-        // })
-        arr.push(result2)
+        result2.forEach(item=>
+        {
+             arr.push(item)
+        })
     }
     return arr
 }

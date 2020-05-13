@@ -14,6 +14,7 @@ function removeDuplicates(arr) {
 async function searchID(temp)
 {
     var arr = []
+    var uniq //for unique value of the array
     //condition when query is string
     if(temp.key !== undefined) {
        
@@ -46,8 +47,10 @@ async function searchID(temp)
         })
 
         uniq = removeDuplicates(arr)
+        return uniq
 
     }
-    return uniq
+    return arr //return default array 
+    
 }
 exports.searchID = searchID

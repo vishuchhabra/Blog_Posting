@@ -5,6 +5,7 @@ const blog  =  require('../models/blog')
 const base64Image = require('base64-to-image')
 const fs  =  require('fs')
 const search   = require('../../scripts/search')
+const cors = require('cors')
 
 //for adding the new blog 
 router.post('/add',  (req,res,next)=>
@@ -61,7 +62,7 @@ router.post('/add',  (req,res,next)=>
 
 //for getting the blog by the id
 
-router.get('/get/:id',async (req,res)=>
+router.get('/get/:id', cors(),async (req,res)=>
 {
     const id =req.params.id
     var data //for storing the content 
@@ -71,7 +72,7 @@ router.get('/get/:id',async (req,res)=>
            //for reading the file with s
            data =fs.readFileSync(result.content, 'utf8')
            //for throwign the error
-           console.log(data)
+           //console.log(data)
            res.status(200).json({
            title: result.title,
            coverImagePath : result.coverImage,

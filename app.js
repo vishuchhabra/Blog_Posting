@@ -3,7 +3,7 @@ const  app  =  express();
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose  = require('mongoose')
-const cors = require("cors")
+const cors = require('cors')
 const mongodb = require('mongodb')
 
 
@@ -12,7 +12,9 @@ const blogRecord = require("./api/routes/blogRecord")
 
 //middlewares
 
+
 //cors and morgan
+
 app.use(cors())
 app.use(morgan("dev"))
 

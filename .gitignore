@@ -1,0 +1,16 @@
+#stop executable files
+
+*.exe
+
+#stop object fies
+*.o 
+
+# vscode 
+.vscode 
+# output file
+
+*.out
+
+#node_modules
+
+node_modules
